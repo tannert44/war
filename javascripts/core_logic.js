@@ -1,54 +1,61 @@
 define(function(require){
   var $ = require("jquery"),
       Q = require("q"),
-      deck = require("getPlayerDeck");
-      console.log(deck);
-  deck.then(function(deck){
-    var deferred = Q.defer();
-    $.ajax({
-      url: "http://deckofcardsapi.com/api/deck/" + deck.deck_id + "/draw/?count=52",
-      method: "GET"
-    }).done(function(data){
-      deferred.resolve(data);
-    }).fail(function(xhr, status, error) {
-    deferred.reject(error);
-    }); 
-
-    return deferred.promise;
-  }).then(function(data){
-    var cardsArr = data.cards;
-    console.log("JEWSFORJESUS", cardsArr);
-    var counter = 0;
-    $(document).on("click", ".draw-button1", function(){
-      
-      if(counter <= 52){
-        
-        if(cardsArr[counter].value === "ACE"){
-          $('.card-value1').html(14);
-          $('.player-one').html("<img src=" +cardsArr[counter].image + ">");
-          counter++;
-        }else if(cardsArr[counter].value === "KING"){
-          $('.card-value1').html(13);
-          $('.player-one').html("<img src=" +cardsArr[counter].image + ">");
-          counter++;
-        }else if(cardsArr[counter].value === "QUEEN"){
-          $('.card-value1').html(12);
-          $('.player-one').html("<img src=" +cardsArr[counter].image + ">");
-          counter++;
-        }else if(cardsArr[counter].value === "JACK"){
-          $('.card-value1').html(11);
-          $('.player-one').html("<img src=" +cardsArr[counter].image + ">");
-          counter++;
-        }else{
-          $('.card-value1').html(cardsArr[counter].value);
-          $('.player-one').html("<img src=" +cardsArr[counter].image + ">");
-          counter++;
-        }
-        
-      }
-      
-    });
-    
+      deck = require("getNewDeck"),
+      draw = require("drawCard");
+  var playerOneDeck = deck.newDeck();
+  var playerTwoDeck = deck.newDeck();
+  
+  var firstCardDrawn, secondCardDrawn;
+  var playerOneId, playerTwoId;
+  
+  playerOneDeck.then(function(data){
+    console.log("player one deck data", data);
+    playerOneId = data.deck_id;
   });
+  
+  playerTwoDeck.then(function(data){
+    console.log("player two deck data", data);
+    playerTwoId = data.deck_id;
+  });
+
+  $(document).on("click", ".draw-button", function(){
+
+    draw.drawPlayerOne(playerOneId).then(function(data){
+      var deferred = Q.defer();
+      
+      firstCardDrawn = data;
+      console.log("player one drawn data", data);
+      $(".player-one").html("<img src=" + data.cards[0].image + ">");
+      $(".player-one-value").html(data.cards[0].value);
+      
+      deferred.resolve();
+      return deferred.promise;
+    })
+    .then(
+      function() {
+        var deferred = Q.defer();
+        
+        draw.drawPlayerTwo(playerTwoId).then(function(data){
+          secondCardDrawn = data;
+          console.log("player two drawn data", data);
+          $(".player-two").html("<img src=" + data.cards[0].image + ">");
+          $(".player-two-value").html(data.cards[0].value);
+          deferred.resolve();
+        });
+        
+        return deferred.promise;
+      }
+    )
+    .then(
+      function() {
+        // compare the two card values
+        console.log(firstCardDrawn, secondCardDrawn);
+        var playerOneValue = firstCardDrawn.cards[0].value;
+        var playerTwoValue = secondCardDrawn.cards[0].value;
+      }
+    );
+  })
+  
 
 });

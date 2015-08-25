@@ -19,9 +19,8 @@ requirejs.config({
 });
 
 // The main function requiring all our anciliary scripts
-requirejs(["dependencies", "getPlayerDeck"], 
+requirejs(["dependencies", "core_logic"], 
           
-function(dependencies, getPlayerDeck){
+function(dependencies, core_logic){
   
   });
-});
