@@ -9,6 +9,9 @@ define(function(require){
   var firstCardDrawn, secondCardDrawn;
   var playerOneId, playerTwoId;
   
+  var playerOneScore = 0;
+  var playerTwoScore = 0;
+  
   playerOneDeck.then(function(data){
     console.log("player one deck data", data);
     playerOneId = data.deck_id;
@@ -51,8 +54,21 @@ define(function(require){
       function() {
         // compare the two card values
         console.log(firstCardDrawn, secondCardDrawn);
-        var playerOneValue = firstCardDrawn.cards[0].value;
-        var playerTwoValue = secondCardDrawn.cards[0].value;
+//        var playerOneValue = parseInt(firstCardDrawn.cards[0].value);
+//        var playerTwoValue = paresInt(secondCardDrawn.cards[0].value);
+        
+        console.log("JEWUSUJSIKS", firstCardDrawn.cards[0].value);
+        
+        if(playerOneValue > playerTwoValue){
+          console.log("Player One WINNSSSSS");
+          playerOneScore++;
+        }else if(playerOneValue === playerTwoValue){
+          console.log("DRAWWWWW");
+        }else{
+          console.log("Player Two WINNNSSS")
+          playerTwoScore++;
+        }
+        
       }
     );
   })
