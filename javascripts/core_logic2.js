@@ -18,16 +18,41 @@ define(function(require){
   }).then(function(data){
     var cardsArr2 = data.cards;
     console.log("Cards 2", cardsArr2);
+    
     var counter = 0;
+    
     $(document).on("click", ".draw-button2", function(){
       
       if(counter <= 52){
-        $('.card-value2').html(cardsArr2[counter].value);
-        $('.player-two').html("<img src=" +cardsArr2[counter].image + ">");
-        counter++;
+        
+        if(cardsArr2[counter].value === "ACE"){
+          $('.card-value2').html(14);
+          $('.player-two').html("<img src=" +cardsArr2[counter].image + ">");
+          counter++;
+        }else if(cardsArr2[counter].value === "KING"){
+          $('.card-value2').html(13);
+          $('.player-two').html("<img src=" +cardsArr2[counter].image + ">");
+          counter++;
+        }else if(cardsArr2[counter].value === "QUEEN"){
+          $('.card-value2').html(12);
+          $('.player-two').html("<img src=" +cardsArr2[counter].image + ">");
+          counter++;
+        }else if(cardsArr2[counter].value === "JACK"){
+          $('.card-value2').html(11);
+          $('.player-two').html("<img src=" +cardsArr2[counter].image + ">");
+          counter++;
+        }else{
+          $('.card-value2').html(cardsArr2[counter].value);
+          $('.player-two').html("<img src=" +cardsArr2[counter].image + ">");
+          counter++;
+        }
+        
       }
+      
     });
     
-  });
+    
+    
+  })
 
 });

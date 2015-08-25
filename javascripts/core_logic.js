@@ -22,10 +22,31 @@ define(function(require){
     $(document).on("click", ".draw-button1", function(){
       
       if(counter <= 52){
-        $('.card-value1').html(cardsArr[counter].value);
-        $('.player-one').html("<img src=" + cardsArr[counter].image + ">");
-        counter++;
+        
+        if(cardsArr[counter].value === "ACE"){
+          $('.card-value1').html(14);
+          $('.player-one').html("<img src=" +cardsArr[counter].image + ">");
+          counter++;
+        }else if(cardsArr[counter].value === "KING"){
+          $('.card-value1').html(13);
+          $('.player-one').html("<img src=" +cardsArr[counter].image + ">");
+          counter++;
+        }else if(cardsArr[counter].value === "QUEEN"){
+          $('.card-value1').html(12);
+          $('.player-one').html("<img src=" +cardsArr[counter].image + ">");
+          counter++;
+        }else if(cardsArr[counter].value === "JACK"){
+          $('.card-value1').html(11);
+          $('.player-one').html("<img src=" +cardsArr[counter].image + ">");
+          counter++;
+        }else{
+          $('.card-value1').html(cardsArr[counter].value);
+          $('.player-one').html("<img src=" +cardsArr[counter].image + ">");
+          counter++;
+        }
+        
       }
+      
     });
     
   });
