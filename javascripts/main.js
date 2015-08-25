@@ -19,6 +19,7 @@ requirejs.config({
 });
 
 // The main function requiring all our anciliary scripts
-requirejs(["dependencies"], 
-  function(dependencies){
+requirejs(["dependencies", "core_logic", "core_logic2"], 
+  function(dependencies, coreLogic, coreLogic2){
+  
 });
